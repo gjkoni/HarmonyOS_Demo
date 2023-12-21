@@ -1,5 +1,6 @@
 import http from '@ohos.net.http';
 import { CommonConstants } from '../constants/CommonConstants';
+import Logger from './Logger';
 import PreferencesUtils from './PreferencesUtils';
 import Response from './Response';
 
@@ -9,19 +10,22 @@ export function request(url: string, method: string, requestData?: any): Promise
   const BASE_URL: string = CommonConstants.RELEASE ? CommonConstants.ApiHost : CommonConstants.ApiHost_DEV
   let httpRequest = http.createHttp()
   let requestUrl = BASE_URL + url;
-  // PreferencesUtils.get('token').then((t) =>{
-  //   return new Promise(async (resolve: Function, reject: Function) => {
-  //     resolve(createRequest(requestUrl, method, requestData, httpRequest, t as string));
-  //   });
-  // }).catch(()=>{
-  //   return new Promise(async (resolve: Function, reject: Function) => {
-  //     resolve(createRequest(requestUrl, method, requestData, httpRequest));
-  //   });
-  // })
-  return createRequest(requestUrl, method, requestData, httpRequest);
+  Logger.debug(`request start`, '');
+
+  return PreferencesUtils.get('token', '').then((v)=>{
+    return createRequest(requestUrl, method, requestData, httpRequest, v as string)
+  })
+
+  // return new Promise(async (resolve: Function) => {
+  //   let token = await PreferencesUtils.get('token', '');
+  //   Logger.debug(`token-${token as string}`);
+  //   resolve(createRequest(requestUrl, method, requestData, httpRequest, token as string));
+  // });
 }
 
 function createRequest(url:string, method:string, requestData:any,httpRequest:http.HttpRequest, token?:string ): Promise<Response>{
+  Logger.debug(`ttttt-${token}`);
+
   let httpOptions = {
     method: getRequestMethod(method),
     header: {
@@ -33,7 +37,7 @@ function createRequest(url:string, method:string, requestData:any,httpRequest:ht
     connectTimeout: 60000,
     readTimeout: 60000,
   };
-  if(token){
+  if(token && token != ''){
     httpOptions.header['Authorization'] = `Bearer ${token}`
   }
   let responseResult = httpRequest.request(
@@ -42,8 +46,10 @@ function createRequest(url:string, method:string, requestData:any,httpRequest:ht
   )
   let response = new Response();
   //处理数据，并返回
+
   return responseResult.then((value: http.HttpResponse) => {
     if (value.responseCode === 200) {
+      Logger.info('response-200', `${value.result}`)
       //获取返回数据,将返回的json数据解析成事先预定好的响应格式
       //这里建议和后端的保持一致
       let res: Response = JSON.parse(`${value.result}`);
@@ -51,11 +57,13 @@ function createRequest(url:string, method:string, requestData:any,httpRequest:ht
       response.code = res.code;
       response.message = res.message;
     }else {
+      Logger.info('response-400', `${value.responseCode}`)
       response.message = `请求错误，${value.result}`;
       response.code = 400;
     }
     return response;
   }).catch((err: Error) => {
+    Logger.info('response-400', `${err.message}`)
     response.message = `请求错误：${err.message}`;
     response.code = 400;
     return response;

@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "module description"
+      "value": "SmartMicky"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "description"
+      "value": "SmartMicky"
     },
     {
       "name": "EntryAbility_label",
-      "value": "label"
+      "value": "SmartMicky"
     },
     {
       "name": "tab_find",

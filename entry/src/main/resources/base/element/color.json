@@ -9,6 +9,10 @@
       "value": "#f1f3f5"
     },
     {
+      "name":"main_color",
+      "value": "#0067b8"
+    },
+    {
       "name": "focus_color",
       "value": "#0067b8"
     },

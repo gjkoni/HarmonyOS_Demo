@@ -15,7 +15,7 @@
 
 export class CommonConstants {
 
-  static readonly  RELEASE = false;
+  static readonly  RELEASE = true;
 
   static readonly ApiHost: string = "https://zptapi.smartmicky.com";
   static readonly ApiHost_DEV: string = "http://test.zpt.api.smartmicky.com";

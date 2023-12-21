@@ -1,6 +1,4 @@
-import { CommonConstants } from '../common/constants/CommonConstants';
 import Logger from '../common/utils/Logger';
-import { request } from '../common/utils/Request';
 import { UserModel } from '../model/UserModel';
 export class LoginViewModel {
   account:string;
@@ -11,12 +9,14 @@ export class LoginViewModel {
 function UserLogin(loginForm:LoginViewModel): Promise<boolean>{
   return new Promise(async (resolve: Function, reject: Function) => {
     UserModel.Login(loginForm.account, loginForm.password).then((data:any)=>{
-      // UserModel.GetUserInfo().then((data:any)=>{
-      //   resolve(data)
-      // }).catch((err:Error) => {
-      //   reject(err)
-      // })
-      resolve(data)
+      Logger.info('viewmodel Login ok', JSON.stringify(data));
+      UserModel.GetUserInfo().then((data:any)=>{
+        Logger.info('viewmodel GetUserInfo ok', JSON.stringify(data));
+        resolve(data)
+      }).catch((err:Error) => {
+        Logger.error('viewmodel GetUserInfo failed', err.message);
+        reject(err)
+      })
     }).catch((err:Error) => {
       Logger.error('viewmodel login failed', err.message);
       reject(err)
@@ -24,6 +24,23 @@ function UserLogin(loginForm:LoginViewModel): Promise<boolean>{
   });
 }
 
+function UserLogin2(loginForm:LoginViewModel): Promise<boolean>{
+  return UserModel.Login(loginForm.account, loginForm.password).then((data:any)=>{
+    Logger.info('viewmodel Login ok', JSON.stringify(data));
+    return UserModel.GetUserInfo().then((data:any)=>{
+      Logger.info('viewmodel GetUserInfo ok', JSON.stringify(data));
+      return data
+    }).catch((err:Error) => {
+      Logger.error('viewmodel GetUserInfo failed', err.message);
+      return err
+    })
+  }).catch((err:Error) => {
+    Logger.error('viewmodel login failed', err.message);
+    return err
+  })
+}
+
 export {
-  UserLogin
+  UserLogin,
+  UserLogin2
 }

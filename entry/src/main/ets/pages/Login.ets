@@ -1,7 +1,8 @@
 import { HeaderBar } from '../components/HeaderBar';
 import router from '@ohos.router';
 import { CommonConstants } from '../common/constants/CommonConstants';
-import { LoginViewModel, UserLogin } from '../viewmodel/LoginViewModel';
+import { LoginViewModel, UserLogin, UserLogin2 } from '../viewmodel/LoginViewModel';
+import Logger from '../common/utils/Logger';
 
 @Extend(Text)
 function smallGrayStyle(){
@@ -12,8 +13,8 @@ function smallGrayStyle(){
 @Entry
 @Component
 struct  Login{
-  @State account:string = ""
-  @State password:string = ""
+  @State account:string = "18917825059"
+  @State password:string = "123456"
 
   aboutToAppear(){
     const params = router.getParams();
@@ -33,7 +34,7 @@ struct  Login{
           Text($r('app.string.login_subtitle')).alignSelf(ItemAlign.Start).margin({ left: 15, right: 15 })
           Text($r('app.string.login_label')).alignSelf(ItemAlign.Start).margin({ left: 15, right: 15, top: 20 })
           Row(){
-            TextInput({ text:this.account, placeholder:$r('app.string.login_input_account_placeholder')}).height(35).padding({right:this.account != '' ? 50 : 0}).onChange((v) => {this.account = v})
+            TextInput({ text: this.account, placeholder:$r('app.string.login_input_account_placeholder')}).height(35).padding({right:this.account != '' ? 50 : 0}).onChange((v) => {this.account = v})
             if(this.account != ''){
               Button({ type: ButtonType.Circle, stateEffect: true }){
                 Image($r('app.media.ic_close')).objectFit(ImageFit.Contain)
@@ -49,19 +50,14 @@ struct  Login{
               Text($r('app.string.button_login')).fontSize(16).fontColor(0xffffff).width('100%').textAlign(TextAlign.Center)
             }.alignItems(VerticalAlign.Center).width('100%').height(40)
           }.backgroundColor('#0067b8').onClick(() => {
-            // AlertDialog.show({
-            //   message: `${this.account} \n ${this.password}`,
-            //   autoCancel: true,
-            //   alignment: DialogAlignment.Bottom,
-            //   offset: { dx: 0, dy: -20 },
-            //   gridCount: 3,
-            // })
-
             const model = new LoginViewModel();
             model.account = this.account;
             model.password = this.password;
-            UserLogin(model).then((data) => {
-              console.debug(`login-debug-${JSON.stringify(data)}`)
+            UserLogin2(model).then((data) => {
+              Logger.info(`GetUserInfo-OK-debug-${JSON.stringify(data)}`)
+              router.back()
+            }).catch((err:Error)=>{
+              Logger.error(`login-error-${err.message}`)
             })
           })
           Button({ type: ButtonType.Capsule, stateEffect: true }) {

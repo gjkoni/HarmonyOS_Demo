@@ -12,8 +12,6 @@ import { buttonInfo, ButtonInfoModel } from '../viewmodel/MainPageData';
 struct Main {
   @State message: string = 'Hello World'
 
-  @State fontColor: string = '#182431'
-  @State selectedFontColor: string = '#007DFF'
   @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm';
   @StorageLink('IndexPage') currentPageIndex: number = 0;
   private breakpointSystem = new BreakpointSystem();
@@ -53,22 +51,22 @@ struct Main {
       }) {
         TabContent() {
           FindComponent()
-        }
+        }.backgroundColor($r('app.color.start_window_background'))
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.FIND_INDEX]))
 
         TabContent() {
           CourseComponent()
-        }
+        }.backgroundColor($r('app.color.start_window_background'))
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.COURSE_INDEX]))
 
         TabContent() {
           JobComponent()
-        }
+        }.backgroundColor($r('app.color.start_window_background'))
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.JOB_INDEX]))
 
         TabContent() {
           MineComponent()
-        }
+        }.backgroundColor($r('app.color.start_window_background'))
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.MINE_INDEX]))
       }
       .barWidth(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
