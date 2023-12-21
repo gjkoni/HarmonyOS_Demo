@@ -1,0 +1,108 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "module description"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "description"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "label"
+    },
+    {
+      "name": "tab_find",
+      "value": "Find"
+    },
+    {
+      "name": "tab_course",
+      "value": "Course"
+    },
+    {
+      "name": "tab_job",
+      "value": "Job"
+    },
+    {
+      "name": "tab_mine",
+      "value": "Mine"
+    },
+    {
+      "name": "page_login",
+      "value": "Login"
+    },
+    {
+      "name": "login_title",
+      "value": "Hello,friend!"
+    },
+    {
+      "name": "login_subtitle",
+      "value": "Welcome to SmartMicky Vocational Education"
+    },
+    {
+      "name": "login_label",
+      "value": "Account password login"
+    },
+    {
+      "name": "login_register_label",
+      "value": "Mobile authentication login / register"
+    },
+    {
+      "name": "login_input_account_placeholder",
+      "value": "Please enter your mobile number"
+    },
+    {
+      "name": "login_input_password_placeholder",
+      "value": "Please enter the password"
+    },
+    {
+      "name": "login_input_verification_placeholder",
+      "value": "Please enter the SMS verification code"
+    },
+    {
+      "name": "button_captcha",
+      "value": "captcha"
+    },
+    {
+      "name": "text_forgot_password",
+      "value": "Forgot password"
+    },
+    {
+      "name": "button_login",
+      "value": "Login"
+    },
+    {
+      "name": "button_sms_login",
+      "value": "Mobile authentication login / register"
+    },
+    {
+      "name": "button_login_register",
+      "value": "Login / Register"
+    },
+    {
+      "name": "button_password_login",
+      "value": "Account password login"
+    },
+    {
+      "name": "app_copyright",
+      "value": "Copyright ©2023 SmartMicky"
+    },
+    {
+      "name": "app_email",
+      "value": "team@smesmate.com"
+    },
+    {
+      "name": "login_description",
+      "value": "If the mobile number does not exist, we will register for you by default. Please continue to improve your password information."
+    },
+    {
+      "name": "http_error_message",
+      "value": "Network request failed, please try later!"
+    },
+    {
+      "name": "page_none_msg",
+      "value": "Network loading failure"
+    }
+  ]
+}
