@@ -1,3 +1,4 @@
+import App from '@system.app';
 import { BreakpointConstants } from '../common/constants/BreakpointConstants';
 import { CommonConstants } from '../common/constants/CommonConstants';
 import { StyleConstants } from '../common/constants/StyleConstants';
@@ -7,13 +8,15 @@ import FindComponent from '../view/FindComponent';
 import JobComponent from '../view/JobComponent';
 import MineComponent from '../view/MineComponent';
 import { buttonInfo, ButtonInfoModel } from '../viewmodel/MainPageData';
+
+PersistentStorage.PersistProp(CommonConstants.storageKeys.userid, '');
+
 @Entry
 @Component
 struct Main {
-  @State message: string = 'Hello World'
-
   @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm';
   @StorageLink('IndexPage') currentPageIndex: number = 0;
+  @Provide userid:string = AppStorage.Get(CommonConstants.storageKeys.userid);
   private breakpointSystem = new BreakpointSystem();
 
   aboutToAppear() {
@@ -22,6 +25,12 @@ struct Main {
 
   aboutToDisappear() {
     this.breakpointSystem.unregister();
+  }
+
+  onPageShow(){
+    if(AppStorage.Has(CommonConstants.storageKeys.userid)){
+      this.userid = AppStorage.Get(CommonConstants.storageKeys.userid);
+    }
   }
 
   @Builder BottomNavigation(button: ButtonInfoModel) {
@@ -51,22 +60,22 @@ struct Main {
       }) {
         TabContent() {
           FindComponent()
-        }.backgroundColor($r('app.color.start_window_background'))
+        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.FIND_INDEX]))
 
         TabContent() {
           CourseComponent()
-        }.backgroundColor($r('app.color.start_window_background'))
+        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.COURSE_INDEX]))
 
         TabContent() {
           JobComponent()
-        }.backgroundColor($r('app.color.start_window_background'))
+        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.JOB_INDEX]))
 
         TabContent() {
           MineComponent()
-        }.backgroundColor($r('app.color.start_window_background'))
+        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.MINE_INDEX]))
       }
       .barWidth(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?

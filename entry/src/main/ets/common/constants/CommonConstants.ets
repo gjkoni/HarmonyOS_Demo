@@ -24,8 +24,15 @@ export class CommonConstants {
   static readonly H5Host_DEV: string = "http://h5test.smartmicky.com";
 
   static readonly apis:any = {
-    login: { url: '/api/smk/user/login', method: 'POST' },
-    info: { url:'/api/smk/user/info', method: 'GET' }
+    user:{
+      login: { url: '/api/smk/user/login', method: 'POST' },
+      info: { url:'/api/smk/user/info', method: 'GET' }
+    },
+    course:{
+      lastStudy:{url:'/api/smk/class/my_last_study_lesson', method:'GET'},
+      freeLessonProductList :{url:'/api/smk/product/free_lesson_product_list', method:'GET'},
+      suggestLessonProductList :{url:'/api/smk/product/suggest_lesson_product_list', method:'GET'}
+    }
   };
 
   static readonly pages:any = {
@@ -33,6 +40,10 @@ export class CommonConstants {
     login: {url:'pages/Login'},
     sms_login: {url:'pages/SmsLogin'}
   };
+
+  static  readonly storageKeys:any = {
+    userid:"userid"
+  }
 
   static  readonly  SERVER_CODE_SUCCESS:number = 200;
 

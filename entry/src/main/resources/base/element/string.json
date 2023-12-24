@@ -102,6 +102,10 @@
     {
       "name": "page_none_msg",
       "value": "网络加载失败"
+    },
+    {
+      "name": "course_page_title",
+      "value": "让培训创造价值"
     }
   ]
 }

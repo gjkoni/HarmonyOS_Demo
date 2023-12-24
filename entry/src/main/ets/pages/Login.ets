@@ -1,8 +1,10 @@
 import { HeaderBar } from '../components/HeaderBar';
 import router from '@ohos.router';
 import { CommonConstants } from '../common/constants/CommonConstants';
-import { LoginViewModel, UserLogin, UserLogin2 } from '../viewmodel/LoginViewModel';
+import { LoginViewModel, userLogin } from '../viewmodel/LoginViewModel';
 import Logger from '../common/utils/Logger';
+import promptAction from '@ohos.promptAction';
+import inputMethod from '@ohos.inputMethod';
 
 @Extend(Text)
 function smallGrayStyle(){
@@ -15,6 +17,8 @@ function smallGrayStyle(){
 struct  Login{
   @State account:string = "18917825059"
   @State password:string = "123456"
+  @State loginStatus:boolean = false
+  inputController:inputMethod.InputMethodController = inputMethod.getController();
 
   aboutToAppear(){
     const params = router.getParams();
@@ -46,20 +50,34 @@ struct  Login{
           TextInput({ placeholder: $r('app.string.login_input_password_placeholder') }).type(InputType.Password).showPasswordIcon(true).onChange((v) => {this.password = v})
           Text($r('app.string.text_forgot_password')).alignSelf(ItemAlign.End).margin({ left: 15, right: 15 }).smallGrayStyle()
           Button({ type: ButtonType.Capsule, stateEffect: true }) {
-            Row() {
+            Row({ space:20 }) {
+              if(this.loginStatus){
+                LoadingProgress().color(Color.White);
+              }
               Text($r('app.string.button_login')).fontSize(16).fontColor(0xffffff).width('100%').textAlign(TextAlign.Center)
-            }.alignItems(VerticalAlign.Center).width('100%').height(40)
+            }.justifyContent(FlexAlign.Center).alignItems(VerticalAlign.Center).width('100%').height(40)
           }.backgroundColor('#0067b8').onClick(() => {
-            const model = new LoginViewModel();
-            model.account = this.account;
-            model.password = this.password;
-            UserLogin2(model).then((data) => {
-              Logger.info(`GetUserInfo-OK-debug-${JSON.stringify(data)}`)
-              router.back()
-            }).catch((err:Error)=>{
-              Logger.error(`login-error-${err.message}`)
-            })
-          })
+            this.inputController.stopInputSession();
+            if(!this.loginStatus){
+              this.loginStatus = true;
+              const model = new LoginViewModel();
+              model.account = this.account;
+              model.password = this.password;
+              userLogin(model).then((data) => {
+                Logger.info(`GetUserInfo-OK-debug-${JSON.stringify(data)}`)
+                router.back()
+              }).catch((err:string)=>{
+                Logger.error(`login-error-${err}`)
+                promptAction.showToast({
+                  message: err,
+                  duration: 3000,
+                  bottom:100
+                });
+              }).finally(()=>{
+                this.loginStatus = false;
+              })
+            }
+          }).enabled(!this.loginStatus)
           Button({ type: ButtonType.Capsule, stateEffect: true }) {
             Row() {
               Text($r('app.string.button_sms_login'))

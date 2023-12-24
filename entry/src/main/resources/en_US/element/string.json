@@ -103,6 +103,10 @@
     {
       "name": "page_none_msg",
       "value": "Network loading failure"
+    },
+    {
+      "name": "course_page_title",
+      "value": "Let the training create value"
     }
   ]
 }
