@@ -10,11 +10,11 @@ export class LoginViewModel {
 function userLogin(loginForm:LoginViewModel): Promise<boolean>{
   return new Promise(async (resolve: Function, reject: Function) => {
     UserModel.login(loginForm.account, loginForm.password).then((data:any)=>{
-      Logger.info('viewmodel Login ok', JSON.stringify(data));
-      UserModel.getUserInfo().then((data:any)=>{
-        Logger.info('viewmodel GetUserInfo ok', JSON.stringify(data));
-        AppStorage.SetOrCreate(CommonConstants.storageKeys.userid, data.user_id)
-        resolve(data)
+      Logger.info('viewmodel D ok', JSON.stringify(data));
+      UserModel.getUserInfo().then((res:any)=>{
+        Logger.info('viewmodel GetUserInfo ok', JSON.stringify(res));
+        AppStorage.SetOrCreate(CommonConstants.storageKeys.userid, res.user_id)
+        resolve(res)
       }).catch((err:Error) => {
         Logger.error('viewmodel GetUserInfo failed', err.message);
         reject(err)

@@ -13,7 +13,7 @@ export function request(url: string, method: string, requestData?: any): Promise
   Logger.debug(`request start`, '');
 
   return PreferencesUtils.get('token', '').then((v)=>{
-    return createRequest(requestUrl, method, requestData, httpRequest, v as string)
+    return createRequest(httpRequest, requestUrl, method, requestData, v as string)
   })
 
   // return new Promise(async (resolve: Function) => {
@@ -23,7 +23,7 @@ export function request(url: string, method: string, requestData?: any): Promise
   // });
 }
 
-function createRequest(url:string, method:string, requestData:any,httpRequest:http.HttpRequest, token?:string ): Promise<Response>{
+function createRequest(httpRequest:http.HttpRequest, url:string, method:string, requestData?:any, token?:string ): Promise<Response>{
   Logger.debug(`ttttt-${token}`);
 
   let httpOptions = {
@@ -32,7 +32,7 @@ function createRequest(url:string, method:string, requestData:any,httpRequest:ht
       'Content-Type': 'application/json'
     },
     //携带额外参数
-    extraData: JSON.stringify(requestData),
+    extraData: formatRequestData(method, requestData),
     //可选，默认为60000ms
     connectTimeout: 60000,
     readTimeout: 60000,
@@ -74,15 +74,46 @@ function createRequest(url:string, method:string, requestData:any,httpRequest:ht
 function getRequestMethod(method: string): http.RequestMethod {
   switch (method.toLowerCase()) {
     case 'get':
-      return http.RequestMethod.GET;
+      return http.RequestMethod.GET; break;
     case 'post':
-      return http.RequestMethod.POST;
+      return http.RequestMethod.POST; break;
     case 'put':
-      return http.RequestMethod.PUT;
+      return http.RequestMethod.PUT; break;
     case 'delete':
-      return http.RequestMethod.DELETE;
+      return http.RequestMethod.DELETE; break;
   // 针对其他 HTTP 方法需要添加更多的情况
     default:
-      throw new Error(`不支持的 HTTP 方法: ${method}`);
+      return http.RequestMethod.GET; break;
   }
+}
+
+function formatRequestData(method:string, requestData?:any):string{
+  switch (method.toLowerCase()) {
+    case 'get':
+      return objToUrlParam(requestData); break;
+    default:
+      return JSON.stringify(requestData); break;
+  }
+}
+
+export function objToUrlParam(obj, ignoreFields = []) {
+  if(!obj){
+    return null
+  }
+
+  let newObj = Object.keys(obj)
+  // 判断是否是空对象
+  if(newObj.length == 0){
+    return null
+  }
+  return Object.keys(obj)
+    .filter(
+      (key) =>
+      ignoreFields.indexOf(key) === -1 &&
+      obj[key] !== null &&
+      obj[key] !== undefined &&
+      obj[key] !== ""
+    )
+    .map((key) => key + "=" + obj[key])
+    .join("&");
 }

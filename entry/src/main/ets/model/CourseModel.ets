@@ -64,6 +64,57 @@ export interface LessonDetailModel{
   teacher_names: any
 }
 
+export interface FreeProductItemModel{
+  product_id:string
+  product_title:string
+  product_description:string
+  product_cover:string
+  original_price:number
+  price:number
+  isfree:number
+  ispublic:number
+  product_teacher:any
+  product_period:number
+  product_type:string
+  time:string
+  lesson_id:string
+  lesson_title:string
+  total_time:number
+  total_period:number
+  purchased:any
+  wf:any
+  class_id:number
+  teacher_names:any
+}
+
+export interface SuggestProductItemModel {
+  product_id: string
+  store_product_id: any
+  storeid: any
+  product_title: string
+  product_description: string
+  product_cover: string
+  medias: any
+  original_price: number
+  price: number
+  isfree: number
+  ispublic: number
+  product_teacher: string
+  product_period: number
+  product_type: string
+  product_category: number
+  webpath_id: number
+  product_status: number
+  product_root: any
+  class_id: number
+  org_id: any
+  time: string
+  lessons: any
+  shareVideos: any
+  purchased: any
+}
+
+
 export class CourseModel{
   static getLastStudy(): Promise<LessonDetailModel>{
     return new Promise(async (resolve: Function, reject: Function) => {
@@ -72,6 +123,30 @@ export class CourseModel{
         resolve(data.data);
       }).catch((err: Error) => {
         Logger.error('lastStudy failed', JSON.stringify(err));
+        reject($r('app.string.http_error_message'));
+      });
+    });
+  }
+
+  static getFreeProduct(): Promise<FreeProductItemModel[]>{
+    return new Promise(async (resolve: Function, reject: Function) => {
+      let api = CommonConstants.apis.course.freeLessonProductList;
+      request(api.url, api.method, {top:10}).then((data: Response) => {
+        resolve(data.data);
+      }).catch((err: Error) => {
+        Logger.error('getFreeProduct failed', JSON.stringify(err));
+        reject($r('app.string.http_error_message'));
+      });
+    });
+  }
+
+  static getSuggestProduct(): Promise<SuggestProductItemModel[]>{
+    return new Promise(async (resolve: Function, reject: Function) => {
+      let api = CommonConstants.apis.course.suggestLessonProductList;
+      request(api.url, api.method, {top:10}).then((data: Response) => {
+        resolve(data.data.list);
+      }).catch((err: Error) => {
+        Logger.error('getSuggestProduct failed', JSON.stringify(err));
         reject($r('app.string.http_error_message'));
       });
     });

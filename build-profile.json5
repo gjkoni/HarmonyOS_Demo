@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "/Users/gongjie/.ohos/config/auto_debug_HarmonyOS_Demo_com.example.harmonystudy_30086000558426362.cer",
-          "storePassword": "0000001A6B2DF25194017BB497DDAC5F4FFBAE37317E23AEE696854C99960DDE965DD3011FC482DAFEA3",
+          "certpath": "C:\\Users\\gongjie\\.ohos\\config\\auto_debug_HarmonyStudy_com.example.harmonystudy_30086000558426362.cer",
+          "storePassword": "0000001BC81668DAADC780DF19AA41B53C68F99AA270A750DDB6757C5FA30EC0A8B74A3CBBADB2980F8026",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001A717DF8827955E34932508881060548DAAF88125E681F11B1BC62CB688F4937F7F729D2DB30DB",
-          "profile": "/Users/gongjie/.ohos/config/auto_debug_HarmonyOS_Demo_com.example.harmonystudy_30086000558426362.p7b",
+          "keyPassword": "0000001B985342A2A9AA90C0E2BA0C369ED7B44D1C4D394243FC190997448DAB5FFC2ABFCFD35750723099",
+          "profile": "C:\\Users\\gongjie\\.ohos\\config\\auto_debug_HarmonyStudy_com.example.harmonystudy_30086000558426362.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "/Users/gongjie/.ohos/config/auto_debug_HarmonyOS_Demo_com.example.harmonystudy_30086000558426362.p12"
+          "storeFile": "C:\\Users\\gongjie\\.ohos\\config\\auto_debug_HarmonyStudy_com.example.harmonystudy_30086000558426362.p12"
         }
       }
     ],
