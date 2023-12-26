@@ -95,46 +95,50 @@ export default struct CourseComponent{
                 Text("推荐课程")
               }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
             }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding({top:10, bottom:10})
-            WaterFlow() {
-              ForEach(this.freeProductList, (item: ProductViewModel) => {
-                FlowItem() {
-                  Column() {
-                    Stack(){
-                      Image(item.product_cover).width('100%')
-                    }
-                    Text(item.product_title).width('100%')
-                    Row(){
-                      Text(item.product_teacher)
-                      if(item.original_price > 0){
-                        Text(`${item.product_period}`)
+            Column(){
+              WaterFlow(){
+                ForEach(this.freeProductList, (item: ProductViewModel) => {
+                      FlowItem(){
+                        Column() {
+                          Stack(){
+                            Image(item.product_cover).width('100%')
+                          }
+                          Text(item.product_title).width('100%')
+                          Row(){
+                            Text(item.product_teacher)
+                            if(item.original_price > 0){
+                              Text(`${item.product_period}`)
+                            }
+                          }
+                          Row(){
+                            if(item.original_price > 0){
+                              Text(`${item.original_price}`)
+                            }else{
+                              Text(`${item.product_period}`)
+                            }
+                            Button({type: ButtonType.Capsule, stateEffect:true}){
+                              Text(item.isfree == 1 ? '免费' : `￥ ${item.price}`).fontSize(12)
+                            }.padding({left: 10, right:10, top:5, bottom:5})
+                          }
+                        }
                       }
-                    }
-                    Row(){
-                      if(item.original_price > 0){
-                        Text(`${item.original_price}`)
-                      }else{
-                        Text(`${item.product_period}`)
-                      }
-                      Button({type: ButtonType.Capsule, stateEffect:true}){
-                        Text(item.isfree == 1 ? '免费' : `￥ ${item.price}`).fontSize(12)
-                      }.padding({left: 10, right:10, top:5, bottom:5})
-                    }
-                  }
-                }
-                .backgroundColor(Color.Gray)
-              }, (item: ProductViewModel, index:number) => {return item.product_id})
+                      .width(100)
+                      .height(50)
+                      .backgroundColor(Color.Gray)
+                  },(item: string) => item)
+              }
+              .columnsTemplate("1fr 1fr")
+              .itemConstraintSize({
+                minWidth: 0,
+                maxWidth: '100%',
+                minHeight: 0,
+                maxHeight: '100%'
+              })
+              .columnsGap(10)
+              .rowsGap(5)
+              .width('100%')
+              .layoutDirection(FlexDirection.Column)
             }
-            .columnsTemplate("1fr 1fr")
-            .itemConstraintSize({
-              minWidth: 0,
-              maxWidth: '100%',
-              minHeight: 0,
-              maxHeight: '100%'
-            })
-            .columnsGap(10)
-            .rowsGap(5)
-            .width('100%')
-            .layoutDirection(FlexDirection.Column)
           }
         }.width('100%').padding({left:10, right:10})
       }
