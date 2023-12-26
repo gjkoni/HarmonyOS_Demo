@@ -11,4 +11,9 @@ export default class Response{
    * 相应数据
    */
   data: any
+
+  /**
+   * 兼容部分界面调试api
+    */
+  result: any
 }

@@ -9,7 +9,7 @@ export function request(url: string, method: string, requestData?: any): Promise
   //如果使用本地模拟器，则ip为本机的IP地址
   const BASE_URL: string = CommonConstants.RELEASE ? CommonConstants.ApiHost : CommonConstants.ApiHost_DEV
   let httpRequest = http.createHttp()
-  let requestUrl = BASE_URL + url;
+  let requestUrl = url.startsWith("http")? url : BASE_URL + url;
   Logger.debug(`request start`, '');
 
   return PreferencesUtils.get('token', '').then((v)=>{
@@ -29,7 +29,8 @@ function createRequest(httpRequest:http.HttpRequest, url:string, method:string, 
   let httpOptions = {
     method: getRequestMethod(method),
     header: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      "User-Agent": "Mozilla/5.0 (Linux; Android 8.0.0; SM-G955U Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36"
     },
     //携带额外参数
     extraData: formatRequestData(method, requestData),
@@ -53,7 +54,7 @@ function createRequest(httpRequest:http.HttpRequest, url:string, method:string, 
       //获取返回数据,将返回的json数据解析成事先预定好的响应格式
       //这里建议和后端的保持一致
       let res: Response = JSON.parse(`${value.result}`);
-      response.data = res.data;
+      response.data = res.data ?? res.result ?? null;
       response.code = res.code;
       response.message = res.message;
     }else {

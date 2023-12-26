@@ -10,3 +10,4 @@
 /.clang-tidy
 **/.test
 Users/gongjie/.ohos/
+build-profile.json5

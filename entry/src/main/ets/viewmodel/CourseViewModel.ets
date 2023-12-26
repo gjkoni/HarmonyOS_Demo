@@ -1,5 +1,6 @@
 import Logger from '../common/utils/Logger';
 import { CourseModel, FreeProductItemModel, LessonDetailModel, SuggestProductItemModel } from '../model/CourseModel';
+import List from '@ohos.util.List';
 export class LastStudyViewModel{
   lesson_id:string
   lesson_title:string
@@ -46,13 +47,13 @@ function getFreeProduct(): Promise<ProductViewModel[]>{
   return new Promise(async (resolve: Function, reject: Function) => {
     CourseModel.getFreeProduct().then((data:FreeProductItemModel[])=>{
       Logger.info('viewmodel getFreeProduct ok', JSON.stringify(data));
-      let model = new Array<ProductViewModel>();
+      let list = []
       data.forEach(element => {
         let item = new ProductViewModel()
         Object.assign(item, element);
-        model.push(item)
+        list.push(item)
       });
-      resolve(model)
+      resolve(list)
     }).catch((err:string) => {
       Logger.error('viewmodel getFreeProduct failed', err);
       reject(err)

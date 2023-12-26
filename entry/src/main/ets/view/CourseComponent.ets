@@ -1,11 +1,13 @@
+import { BreakpointConstants } from '../common/constants/BreakpointConstants';
 import Logger from '../common/utils/Logger';
 import { getFreeProduct, getLastStudy, getSuggestProduct, LastStudyViewModel, ProductViewModel } from '../viewmodel/CourseViewModel';
 
 @Component
 export default struct CourseComponent{
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm';
   @Consume @Watch('onUserChange') userid:string;
   @State lastStudy:LastStudyViewModel = new LastStudyViewModel()
-  @State freeProductList:ProductViewModel[] = []
+  @State freeProductList:ProductViewModel[] = [];
   @State suggestProductList:ProductViewModel[] = []
 
   scroller: Scroller = new Scroller()
@@ -41,6 +43,16 @@ export default struct CourseComponent{
     })
   }
 
+  @Builder itemFoot() {
+    Column() {
+      Text('')
+        .backgroundColor(Color.Gray)
+        .height(1)
+        .align(Alignment.Center)
+        .width('100%')
+    }
+  }
+
   build(){
     Column(){
       Row({ space:10 }){
@@ -62,16 +74,16 @@ export default struct CourseComponent{
                 }.justifyContent(FlexAlign.End).alignItems(VerticalAlign.Center)
               }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding({top:10, bottom:10})
               Column() {
-                Stack() {
+                Stack({alignContent:Alignment.TopEnd}) {
                   Image(this.lastStudy.lesson_cover).width('100%').objectFit(ImageFit.Contain).backgroundColor(Color.White).borderRadius({topLeft:4, topRight:4})
-                  // if(this.lastStudy.class_start && this.lastStudy.class_end){
+                  if(this.lastStudy.class_start && this.lastStudy.class_end){
                   Text(`${this.lastStudy.class_start}-${this.lastStudy.class_end}`)
                     .align(Alignment.TopEnd)
                     .padding(5)
                     .backgroundColor(Color.White)
                     .opacity(0.5)
                     .fontColor(Color.Black)
-                  // }
+                  }
                 }.width('100%')
 
                 Row() {
@@ -96,38 +108,38 @@ export default struct CourseComponent{
               }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
             }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding({top:10, bottom:10})
             Column(){
-              WaterFlow(){
+              WaterFlow({footer: this.itemFoot.bind(this), scroller:this.scroller}) {
                 ForEach(this.freeProductList, (item: ProductViewModel) => {
-                      FlowItem(){
-                        Column() {
-                          Stack(){
-                            Image(item.product_cover).width('100%')
-                          }
-                          Text(item.product_title).width('100%')
-                          Row(){
-                            Text(item.product_teacher)
-                            if(item.original_price > 0){
-                              Text(`${item.product_period}`)
-                            }
-                          }
-                          Row(){
-                            if(item.original_price > 0){
-                              Text(`${item.original_price}`)
-                            }else{
-                              Text(`${item.product_period}`)
-                            }
-                            Button({type: ButtonType.Capsule, stateEffect:true}){
-                              Text(item.isfree == 1 ? '免费' : `￥ ${item.price}`).fontSize(12)
-                            }.padding({left: 10, right:10, top:5, bottom:5})
-                          }
+                  FlowItem() {
+                    Column() {
+                      // Stack(){
+                      //   Image(item.product_cover).width('100%').borderRadius({topLeft:4, topRight:4})
+                      // }
+                      Text(item.product_title).width('100%').padding(5)
+                      Row(){
+                        Text(item.product_teacher).fontSize(12).fontColor($r('app.color.main_color'))
+                        if(item.original_price > 0){
+                          Text(`${item.product_period}课时`).fontSize(12)
                         }
-                      }
-                      .width(100)
-                      .height(50)
-                      .backgroundColor(Color.Gray)
-                  },(item: string) => item)
+                      }.width('100%').padding(5).justifyContent(FlexAlign.SpaceBetween)
+                      Row(){
+                        if(item.original_price > 0){
+                          Text(`${item.original_price}`).fontColor(Color.Gray).fontStyle(FontStyle.Italic).decoration({type:TextDecorationType.LineThrough, color:Color.Gray})
+                        }else{
+                          Text(`${item.product_period}课时`).fontSize(12)
+                        }
+                        Button({type: ButtonType.Capsule, stateEffect:true}){
+                          Text(item.isfree == 1 ? '免费' : `￥ ${item.price}`).fontSize(12).fontColor(Color.White)
+                        }.padding({left: 10, right:10, top:5, bottom:5})
+                      }.width('100%').padding(5).justifyContent(FlexAlign.SpaceBetween)
+                    }
+                    .border({ width: 1, color: 'rgba(3, 3, 3, 0.5)' })
+                    .borderRadius(8)
+                    .shadow({ radius: 3, color: 'rgba(0,0,0,0.5)', offsetX: 0, offsetY: 0 })
+                  }
+                }, (item:ProductViewModel) => item.product_id)
               }
-              .columnsTemplate("1fr 1fr")
+              .columnsTemplate(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? '1fr 1fr 1fr 1fr 1fr' : '1fr 1fr')
               .itemConstraintSize({
                 minWidth: 0,
                 maxWidth: '100%',
@@ -135,8 +147,9 @@ export default struct CourseComponent{
                 maxHeight: '100%'
               })
               .columnsGap(10)
-              .rowsGap(5)
+              .rowsGap(10)
               .width('100%')
+              .height('100%')
               .layoutDirection(FlexDirection.Column)
             }
           }
