@@ -24,6 +24,31 @@ export class ProductViewModel{
   class_id:number
 }
 
+export class LazyProducts implements IDataSource {
+
+  private data: ProductViewModel[] = []
+
+  addData(item: ProductViewModel){
+    this.data.push(item)
+  }
+
+  unregisterDataChangeListener(listener: DataChangeListener): void {
+
+  }
+
+  registerDataChangeListener(listener: DataChangeListener): void {
+
+  }
+
+  getData(index: number): ProductViewModel {
+    return this.data[index]
+  }
+
+  totalCount(): number {
+    return this.data.length
+  }
+}
+
 function getLastStudy(): Promise<LastStudyViewModel>{
   return new Promise(async (resolve: Function, reject: Function) => {
     CourseModel.getLastStudy().then((data:LessonDetailModel)=>{

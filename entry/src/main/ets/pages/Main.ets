@@ -14,22 +14,23 @@ PersistentStorage.PersistProp(CommonConstants.storageKeys.userid, '');
 @Entry
 @Component
 struct Main {
-  @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm';
-  @StorageLink('IndexPage') currentPageIndex: number = 0;
-  @Provide userid:string = AppStorage.Get(CommonConstants.storageKeys.userid);
-  private breakpointSystem = new BreakpointSystem();
+  @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm'
+  @StorageLink('IndexPage') currentPageIndex: number = 0
+  @Provide userid:string = AppStorage.Get(CommonConstants.storageKeys.userid)
+  private breakpointSystem = new BreakpointSystem()
+  controller:TabsController = new TabsController()
 
   aboutToAppear() {
-    this.breakpointSystem.register();
+    this.breakpointSystem.register()
   }
 
   aboutToDisappear() {
-    this.breakpointSystem.unregister();
+    this.breakpointSystem.unregister()
   }
 
   onPageShow(){
     if(AppStorage.Has(CommonConstants.storageKeys.userid)){
-      this.userid = AppStorage.Get(CommonConstants.storageKeys.userid);
+      this.userid = AppStorage.Get(CommonConstants.storageKeys.userid)
     }
   }
 
@@ -50,14 +51,16 @@ struct Main {
     .height(StyleConstants.FULL_HEIGHT)
     .alignItems(HorizontalAlign.Center)
     .justifyContent(FlexAlign.Center)
+    .onClick(()=>{
+      this.currentPageIndex = button.index
+      this.controller.changeIndex(this.currentPageIndex)
+    })
   }
 
   build() {
     Column() {
       Tabs({
-        barPosition: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? BarPosition.Start : BarPosition.End,
-        index: this.currentPageIndex
-      }) {
+        barPosition: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? BarPosition.Start : BarPosition.End, controller:this.controller}) {
         TabContent() {
           FindComponent()
         }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
@@ -84,9 +87,6 @@ struct Main {
       StyleConstants.SIXTY_HEIGHT : $r('app.float.vp_fifty_six'))
       .vertical(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG)
       .scrollable(false)
-      .onChange((index: number) => {
-        this.currentPageIndex = index;
-      })
     }
     .backgroundColor($r('app.color.page_background'))
   }

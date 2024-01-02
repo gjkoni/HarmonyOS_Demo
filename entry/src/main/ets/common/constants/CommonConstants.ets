@@ -15,7 +15,7 @@
 
 export class CommonConstants {
 
-  static readonly  RELEASE = true;
+  static readonly  RELEASE = false;
 
   static readonly ApiHost: string = "https://zptapi.smartmicky.com";
   static readonly ApiHost_DEV: string = "http://test.zpt.api.smartmicky.com";
@@ -32,6 +32,15 @@ export class CommonConstants {
       lastStudy:{url:'/api/smk/class/my_last_study_lesson', method:'GET'},
       freeLessonProductList :{url:'/api/smk/product/free_lesson_product_list', method:'GET'},
       suggestLessonProductList :{url:'/api/smk/product/suggest_lesson_product_list', method:'GET'}
+    }
+  };
+
+  static readonly h5:any = {
+    job:{
+      index:  H5host() + `/studyindex.html`
+    },
+    find:{
+      index:  H5host() + `/studyfind.html`
     }
   };
 
@@ -62,4 +71,12 @@ export enum Unit {
   Pcs = '个',
   Times = '次',
   Empty = ''
+}
+
+function H5host() {
+  let server = CommonConstants.H5Host_DEV
+  if(CommonConstants.RELEASE){
+    server = CommonConstants.H5Host
+  }
+  return server
 }
