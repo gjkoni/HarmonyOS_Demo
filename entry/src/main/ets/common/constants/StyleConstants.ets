@@ -161,4 +161,11 @@ export class StyleConstants {
    * Number of value: -1.
    */
   static readonly MINUS_ONE: number = -1;
+
+
+  static readonly BAR_WIDTH = '96vp'
+
+  static readonly LETTER_SPACE: string = '16vp';
+
+  static readonly BUTTON_SPACE: string = '6vp';
 }

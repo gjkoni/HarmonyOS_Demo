@@ -26,7 +26,8 @@ struct  SmsLogin{
     Column() {
       Column(){
         HeaderBar({ iconType:'close', onBack: () => {
-          router.replaceUrl({url: CommonConstants.pages.main.url});
+          router.back()
+          // router.replaceUrl({url: CommonConstants.pages.main.url});
         } })
         Column({space:'20vp'}){
           Text($r('app.string.login_register_label')).alignSelf(ItemAlign.Start).margin({left:15, right:15})

@@ -1,5 +1,5 @@
 import dataPreferences from '@ohos.data.preferences'
-import GlobalContext from './GlobalContext';
+import { GlobalContext } from './GlobalContext';
 import Logger from './Logger';
 
 const TAG = "PreferencesUtils"

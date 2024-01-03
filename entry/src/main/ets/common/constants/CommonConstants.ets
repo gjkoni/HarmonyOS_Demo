@@ -51,13 +51,10 @@ export class CommonConstants {
   };
 
   static  readonly storageKeys:any = {
-    userid:"userid"
+    userid:"userid",
   }
 
   static  readonly  SERVER_CODE_SUCCESS:number = 200;
-
-  static readonly LETTER_SPACE: string = '16vp';
-  static readonly BUTTON_SPACE: string = '6vp';
 
   static readonly FIND_INDEX: number = 0;
   static readonly COURSE_INDEX: number = 1;

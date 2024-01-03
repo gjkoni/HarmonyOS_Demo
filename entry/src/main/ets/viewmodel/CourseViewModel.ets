@@ -1,6 +1,7 @@
 import Logger from '../common/utils/Logger';
 import { CourseModel, FreeProductItemModel, LessonDetailModel, SuggestProductItemModel } from '../model/CourseModel';
 import List from '@ohos.util.List';
+
 export class LastStudyViewModel{
   lesson_id:string
   lesson_title:string

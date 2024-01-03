@@ -16,21 +16,31 @@ export default struct CourseComponent {
   scroller: Scroller = new Scroller()
 
   onUserChange(propName: string): void {
-    getLastStudy().then((data) => {
-      Logger.info(`getLastStudy-OK-debug-${JSON.stringify(data)}`)
-      this.lastStudy = data;
-    }).catch((err: string) => {
-      Logger.error(`getLastStudy-error-${err}`)
-    })
+    this.getLastStudy()
   }
 
   aboutToAppear() {
+    this.getLastStudy()
     Logger.debug('course aboutToAppear')
     this.loadFreeProducts()
     Logger.debug('free aboutToAppear')
     this.loadSuggestProducts()
     Logger.debug('suggest aboutToAppear')
   }
+
+  getLastStudy(){
+    if(this.userid != ''){
+      getLastStudy().then((data) => {
+        Logger.info(`getLastStudy-OK-debug-${JSON.stringify(data)}`)
+        this.lastStudy = data;
+      }).catch((err: string) => {
+        Logger.error(`getLastStudy-error-${err}`)
+      })
+    }else{
+      this.lastStudy = new LastStudyViewModel()
+    }
+  }
+
 
   loadFreeProducts() {
     getFreeProduct().then((data: ProductViewModel[]) => {
@@ -44,16 +54,6 @@ export default struct CourseComponent {
       Logger.debug(`suggestproductlist ${JSON.stringify(data)}`)
       this.suggestProducts = data;
     })
-  }
-
-  @Builder itemFoot() {
-    Column() {
-      Text('')
-        .backgroundColor(Color.Gray)
-        .height(1)
-        .align(Alignment.Center)
-        .width('100%')
-    }
   }
 
   @Builder itemBox(item:ProductViewModel) {
@@ -151,7 +151,7 @@ export default struct CourseComponent {
                     Text("推荐课程")
                   }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
                 }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding(10)
-            MyWaterFlow({ data:$suggestProducts, columns:2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
+            MyWaterFlow({ data:$suggestProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 4 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
               this.itemBox(item)
             }})
           }
@@ -162,7 +162,7 @@ export default struct CourseComponent {
                 Text("免费课程")
               }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
             }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding(10)
-            MyWaterFlow({ data:$freeProducts, columns:2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
+            MyWaterFlow({ data:$freeProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 4 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
               this.itemBox(item)
             }})
           }

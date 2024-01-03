@@ -1,4 +1,5 @@
 import { CommonConstants } from '../common/constants/CommonConstants';
+
 import Logger from '../common/utils/Logger';
 import { UserModel } from '../model/UserModel';
 export class LoginViewModel {
@@ -25,6 +26,7 @@ function userLogin(loginForm:LoginViewModel): Promise<boolean>{
     })
   });
 }
+
 
 export {
   userLogin

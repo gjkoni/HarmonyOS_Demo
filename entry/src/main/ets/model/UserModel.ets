@@ -3,6 +3,8 @@ import Logger from '../common/utils/Logger';
 import PreferencesUtils from '../common/utils/PreferencesUtils';
 import { request } from '../common/utils/Request';
 import Response from '../common/utils/Response';
+import { GlobalContext } from '../common/utils/GlobalContext';
+
 export class UserModel{
   static login(account:string, password:string): Promise<any>{
     Logger.info('model Login start','');
@@ -11,6 +13,8 @@ export class UserModel{
       request(api.url, api.method, {account, password}).then((data: Response) => {
         if (data.code === CommonConstants.SERVER_CODE_SUCCESS) {
           Logger.info('request ok', JSON.stringify(data));
+          GlobalContext.getContext().setToken(data.data.token)
+          GlobalContext.getContext().setRefreshToken(data.data.refresh_token)
           let p1 = PreferencesUtils.put("token", data.data.token);
           let p2 = PreferencesUtils.put("refresh_token", data.data.refresh_token);
           resolve(Promise.all([p1, p2]).then(()=>{

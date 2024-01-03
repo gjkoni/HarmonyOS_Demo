@@ -15,7 +15,7 @@
 
 import hilog from '@ohos.hilog';
 
-const LOGGER_PREFIX: string = 'News Release';
+const LOGGER_PREFIX: string = 'SmartMicky Release';
 
 class Logger {
   private domain: number;

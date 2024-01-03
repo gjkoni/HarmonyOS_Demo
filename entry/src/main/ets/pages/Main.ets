@@ -35,7 +35,7 @@ struct Main {
   }
 
   @Builder BottomNavigation(button: ButtonInfoModel) {
-    Column({ space: CommonConstants.BUTTON_SPACE }) {
+    Column({ space: StyleConstants.BUTTON_SPACE }) {
       Image(this.currentPageIndex === button.index ? button.selectImg : button.img)
         .objectFit(ImageFit.Contain)
         .width($r('app.float.main_image_size'))
@@ -82,7 +82,7 @@ struct Main {
         .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.MINE_INDEX]))
       }
       .barWidth(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
-      $r('app.float.bar_width') : StyleConstants.FULL_WIDTH)
+        StyleConstants.BAR_WIDTH : StyleConstants.FULL_WIDTH)
       .barHeight(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
       StyleConstants.SIXTY_HEIGHT : $r('app.float.vp_fifty_six'))
       .vertical(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG)
