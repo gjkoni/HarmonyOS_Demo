@@ -80,6 +80,14 @@
       "value": "登录/注册"
     },
     {
+      "name": "button_click_login_register",
+      "value": "点我登录/注册"
+    },
+    {
+      "name": "button_login_service",
+      "value": "登录使用服务"
+    },
+    {
       "name": "button_password_login",
       "value": "帐号密码登录"
     },

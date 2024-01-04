@@ -1,26 +1,28 @@
 import { BreakpointConstants } from '../common/constants/BreakpointConstants';
 import Logger from '../common/utils/Logger';
 import { MyWaterFlow } from '../components/MyWaterFlow';
-import { getFreeProduct, getLastStudy, getSuggestProduct, LastStudyViewModel, LazyProducts, ProductViewModel } from '../viewmodel/CourseViewModel';
+import { getFreeProduct, getLastStudy, getSuggestProduct, getProductTypesLevel1, LastStudyViewModel, ProductViewModel, ProductTypeViewModel } from '../viewmodel/CourseViewModel';
+import deviceInfo from '@ohos.deviceInfo';
 
 @Component
 export default struct CourseComponent {
   @StorageProp('currentBreakpoint') currentBreakpoint: string = 'sm'
   @Consume @Watch('onUserChange') userid: string
+  @State productTypes: ProductTypeViewModel[] = []
   @State lastStudy: LastStudyViewModel = new LastStudyViewModel()
-  //@State freeProductList: LazyProducts = new LazyProducts()
   @State freeProducts: ProductViewModel[] = []
-  //@State suggestProductList: LazyProducts = new LazyProducts()
   @State suggestProducts: ProductViewModel[] = []
 
   scroller: Scroller = new Scroller()
 
   onUserChange(propName: string): void {
-    this.getLastStudy()
+    this.loadLastStudy()
   }
 
   aboutToAppear() {
-    this.getLastStudy()
+    this.loadProductTypes()
+    Logger.debug('type aboutToAppear')
+    this.loadLastStudy()
     Logger.debug('course aboutToAppear')
     this.loadFreeProducts()
     Logger.debug('free aboutToAppear')
@@ -28,7 +30,13 @@ export default struct CourseComponent {
     Logger.debug('suggest aboutToAppear')
   }
 
-  getLastStudy(){
+  loadProductTypes(){
+    getProductTypesLevel1().then((data:ProductTypeViewModel[]) =>{
+      this.productTypes = data
+    })
+  }
+
+  loadLastStudy(){
     if(this.userid != ''){
       getLastStudy().then((data) => {
         Logger.info(`getLastStudy-OK-debug-${JSON.stringify(data)}`)
@@ -40,7 +48,6 @@ export default struct CourseComponent {
       this.lastStudy = new LastStudyViewModel()
     }
   }
-
 
   loadFreeProducts() {
     getFreeProduct().then((data: ProductViewModel[]) => {
@@ -96,6 +103,22 @@ export default struct CourseComponent {
       .justifyContent(FlexAlign.Start)
       Scroll(this.scroller) {
         Column({ space: 20 }) {
+          // if(deviceInfo.deviceType === 'tablet'){
+          //
+          // }else{
+            Row({space:10}){
+            Image($r('app.media.icon')).width(20).height(20)
+            Text('搜索课程')
+          }.width('100%').padding({top:10, bottom:10}).backgroundColor('rgba(242,242,242,0.7)').justifyContent(FlexAlign.Center).alignItems(VerticalAlign.Center)
+            Flex({ wrap: FlexWrap.Wrap, justifyContent: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? FlexAlign.SpaceEvenly :FlexAlign.SpaceBetween, alignItems:ItemAlign.Center }){
+              ForEach(this.productTypes, (item:ProductTypeViewModel, index)=>{
+                Column({space:10}){
+                  Image(item.filename).aspectRatio(1/1).width(60).objectFit(ImageFit.Contain)
+                  Text(item.type_name).fontSize(12)
+                }
+              })
+            }.width('100%').padding({left:10, right:10})
+          // }
           if (this.userid != '') {
             Column() {
               Row() {
@@ -151,7 +174,7 @@ export default struct CourseComponent {
                     Text("推荐课程")
                   }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
                 }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding(10)
-            MyWaterFlow({ data:$suggestProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 4 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
+            MyWaterFlow({ data:$suggestProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 5 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
               this.itemBox(item)
             }})
           }
@@ -162,7 +185,7 @@ export default struct CourseComponent {
                 Text("免费课程")
               }.justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Bottom)
             }.width('100%').justifyContent(FlexAlign.SpaceBetween).alignItems(VerticalAlign.Bottom).padding(10)
-            MyWaterFlow({ data:$freeProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 4 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
+            MyWaterFlow({ data:$freeProducts, columns:this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? 5 : 2, columnGap:10, rowGap:10, paddingLR:true, itemBuilder: (item)=>{
               this.itemBox(item)
             }})
           }

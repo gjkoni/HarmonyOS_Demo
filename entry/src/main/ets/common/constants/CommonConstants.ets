@@ -29,6 +29,7 @@ export class CommonConstants {
       info: { url:'/api/smk/user/info', method: 'GET' }
     },
     course:{
+      productTypes:{url:'/api/smk/product/product_type_list', method:'GET'},
       lastStudy:{url:'/api/smk/class/my_last_study_lesson', method:'GET'},
       freeLessonProductList :{url:'/api/smk/product/free_lesson_product_list', method:'GET'},
       suggestLessonProductList :{url:'/api/smk/product/suggest_lesson_product_list', method:'GET'}

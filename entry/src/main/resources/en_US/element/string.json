@@ -81,6 +81,14 @@
       "value": "Login / Register"
     },
     {
+      "name": "button_click_login_register",
+      "value": "Click here to login and register"
+    },
+    {
+      "name": "button_login_service",
+      "value": "Login to use the service"
+    },
+    {
       "name": "button_password_login",
       "value": "Account password login"
     },

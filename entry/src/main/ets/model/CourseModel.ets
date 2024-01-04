@@ -114,8 +114,29 @@ export interface SuggestProductItemModel {
   purchased: any
 }
 
+export interface ProductTypeModel{
+  type_id:number
+  type_name:string
+  parent_id:number
+  filename:string
+  root_id:number
+  type_level:number
+  sort:number
+}
 
 export class CourseModel{
+  static getProductTypes(): Promise<ProductTypeModel[]>{
+    return new Promise(async (resolve: Function, reject: Function) => {
+      let api = CommonConstants.apis.course.productTypes;
+      request(api.url, api.method).then((data: Response) => {
+        resolve(data.data);
+      }).catch((err: Error) => {
+        Logger.error('lastStudy failed', JSON.stringify(err));
+        reject($r('app.string.http_error_message'));
+      });
+    });
+  }
+
   static getLastStudy(): Promise<LessonDetailModel>{
     return new Promise(async (resolve: Function, reject: Function) => {
       let api = CommonConstants.apis.course.lastStudy;

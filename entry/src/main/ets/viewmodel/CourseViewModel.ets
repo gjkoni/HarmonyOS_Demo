@@ -1,6 +1,6 @@
 import Logger from '../common/utils/Logger';
-import { CourseModel, FreeProductItemModel, LessonDetailModel, SuggestProductItemModel } from '../model/CourseModel';
-import List from '@ohos.util.List';
+import { CourseModel, FreeProductItemModel, LessonDetailModel, SuggestProductItemModel, ProductTypeModel } from '../model/CourseModel';
+
 
 export class LastStudyViewModel{
   lesson_id:string
@@ -25,29 +25,34 @@ export class ProductViewModel{
   class_id:number
 }
 
-export class LazyProducts implements IDataSource {
+export class ProductTypeViewModel{
+  type_id:number
+  type_name:string
+  parent_id:number
+  filename:string
+  root_id:number
+  type_level:number
+  sort:number
+}
 
-  private data: ProductViewModel[] = []
-
-  addData(item: ProductViewModel){
-    this.data.push(item)
-  }
-
-  unregisterDataChangeListener(listener: DataChangeListener): void {
-
-  }
-
-  registerDataChangeListener(listener: DataChangeListener): void {
-
-  }
-
-  getData(index: number): ProductViewModel {
-    return this.data[index]
-  }
-
-  totalCount(): number {
-    return this.data.length
-  }
+function getProductTypesLevel1(): Promise<ProductTypeViewModel[]>{
+  return new Promise(async (resolve: Function, reject: Function) => {
+    CourseModel.getProductTypes().then((data:ProductTypeModel[])=>{
+      Logger.info('viewmodel getProductTypes ok', JSON.stringify(data));
+      let list = []
+      data.forEach(element => {
+        if(element.type_level == 1){
+          let item = new ProductTypeViewModel()
+          Object.assign(item, element);
+          list.push(item)
+        }
+      });
+      resolve(list.sort((a:ProductTypeViewModel,b:ProductTypeViewModel)=>{ return a.sort-b.sort }))
+    }).catch((err:string) => {
+      Logger.error('viewmodel getProductTypes failed', err);
+      reject(err)
+    })
+  });
 }
 
 function getLastStudy(): Promise<LastStudyViewModel>{
@@ -106,6 +111,7 @@ function getSuggestProduct(): Promise<ProductViewModel[]>{
 }
 
 export {
+  getProductTypesLevel1,
   getLastStudy,
   getFreeProduct,
   getSuggestProduct

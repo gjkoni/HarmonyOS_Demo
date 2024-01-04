@@ -8,6 +8,7 @@ import FindComponent from '../view/FindComponent';
 import JobComponent from '../view/JobComponent';
 import MineComponent from '../view/MineComponent';
 import { buttonInfo, ButtonInfoModel } from '../viewmodel/MainPageData';
+import { AreaColumn } from '../components/AreaColumn';
 
 PersistentStorage.PersistProp(CommonConstants.storageKeys.userid, '');
 
@@ -58,36 +59,36 @@ struct Main {
   }
 
   build() {
-    Column() {
-      Tabs({
-        barPosition: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? BarPosition.Start : BarPosition.End, controller:this.controller}) {
-        TabContent() {
-          FindComponent()
-        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
-        .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.FIND_INDEX]))
+      Column(){
+        Tabs({
+          barPosition: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? BarPosition.Start : BarPosition.End, controller:this.controller}) {
+          TabContent() {
+            AreaColumn(){FindComponent()}
+          }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
+          .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.FIND_INDEX]))
 
-        TabContent() {
-          CourseComponent()
-        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
-        .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.COURSE_INDEX]))
+          TabContent() {
+            AreaColumn(){CourseComponent()}
+          }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
+          .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.COURSE_INDEX]))
 
-        TabContent() {
-          JobComponent()
-        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
-        .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.JOB_INDEX]))
+          TabContent() {
+            AreaColumn(){JobComponent()}
+          }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
+          .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.JOB_INDEX]))
 
-        TabContent() {
-          MineComponent()
-        }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
-        .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.MINE_INDEX]))
-      }
-      .barWidth(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
+          TabContent() {
+            AreaColumn(){MineComponent()}
+          }.backgroundColor($r('app.color.start_window_background')).align(Alignment.TopStart)
+          .tabBar(this.BottomNavigation(buttonInfo[CommonConstants.MINE_INDEX]))
+        }
+        .barWidth(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
         StyleConstants.BAR_WIDTH : StyleConstants.FULL_WIDTH)
-      .barHeight(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
-      StyleConstants.SIXTY_HEIGHT : $r('app.float.vp_fifty_six'))
-      .vertical(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG)
-      .scrollable(false)
-    }
-    .backgroundColor($r('app.color.page_background'))
+        .barHeight(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ?
+        StyleConstants.SIXTY_HEIGHT : $r('app.float.vp_fifty_six'))
+        .vertical(this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG)
+        .scrollable(false)
+      }
+      .backgroundColor($r('app.color.page_background'))
   }
 }

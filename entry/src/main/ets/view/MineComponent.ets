@@ -4,12 +4,37 @@ import { CommonConstants } from '../common/constants/CommonConstants'
 export default struct MineComponent{
   @Consume userid:string;
 
+  on
+
   build(){
     Column(){
-      Text(this.userid)
-      if(this.userid != ''){
-        Image($r('app.media.mine_active')).width(30);
+      Row({ space: 10 }) {
+        Text($r('app.string.tab_mine')).fontSize(14).fontWeight(FontWeight.Bolder)
+        Button(){
+          Image($r('app.media.mine')).width(20).height(20)
+        }
       }
+      .width('100%')
+      .padding({ top: 10, bottom: 10, left: 10, right: 10 })
+      .alignItems(VerticalAlign.Bottom)
+      .justifyContent(FlexAlign.SpaceBetween)
+
+      if(this.userid != ''){
+        Row(){
+          Image($r('app.media.icon')).width(80).height(80).borderRadius('50%').objectFit(ImageFit.Cover)
+        }
+      }else{
+        Row({space:20}){
+          Image($r('app.media.icon')).width(80).height(80).borderRadius('50%').objectFit(ImageFit.Cover)
+          Column(){
+            Text($r('app.string.button_click_login_register')).fontSize(14)
+            Text($r('app.string.button_login_service')).fontSize(12)
+          }
+        }
+      }
+
+
+
       Text("MINE").width(100).height(30).backgroundColor(Color.Black).fontColor(Color.White).textAlign(TextAlign.Center).onClick(()=>{
         router.pushUrl({url: CommonConstants.pages.login.url})
       })

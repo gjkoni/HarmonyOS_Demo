@@ -5,6 +5,7 @@ import { LoginViewModel, userLogin } from '../viewmodel/LoginViewModel';
 import Logger from '../common/utils/Logger';
 import promptAction from '@ohos.promptAction';
 import inputMethod from '@ohos.inputMethod';
+import { AreaColumn } from '../components/AreaColumn';
 
 @Extend(Text)
 function smallGrayStyle(){
@@ -29,6 +30,7 @@ struct  Login{
 
   build(){
     Column(){
+      AreaColumn(){
       Column() {
         HeaderBar({ iconType: 'close', onBack: () => {
           router.back()
@@ -112,6 +114,7 @@ struct  Login{
       }
       .width('100%')
       .padding('20vp')
+      }
     }
     .backgroundColor($r('app.color.page_background'))
     .height('100%')

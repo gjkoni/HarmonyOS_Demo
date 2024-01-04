@@ -13,6 +13,7 @@
  * limitations under the License.
  */
 import { StyleConstants } from '../common/constants/StyleConstants';
+
 @Component
 export struct HeaderBar {
   private title: string | Resource = '';
