@@ -11,7 +11,7 @@ export default struct MineComponent{
       Row({ space: 10 }) {
         Text($r('app.string.tab_mine')).fontSize(14).fontWeight(FontWeight.Bolder)
         Button(){
-          Image($r('app.media.mine')).width(20).height(20)
+          Image($r('app.media.setting')).width(20).height(20)
         }
       }
       .width('100%')
@@ -19,22 +19,21 @@ export default struct MineComponent{
       .alignItems(VerticalAlign.Bottom)
       .justifyContent(FlexAlign.SpaceBetween)
 
-      if(this.userid != ''){
-        Row(){
-          Image($r('app.media.icon')).width(80).height(80).borderRadius('50%').objectFit(ImageFit.Cover)
+      Stack(){
+        if(this.userid != ''){
+          Row(){
+            Image($r('app.media.icon')).width(80).height(80).borderRadius(40).objectFit(ImageFit.Cover).border({width:1, color:'#fcfcfc'})
+          }.width('100%').justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Center).padding({left:10, right:10})
+        }else{
+          Row({space:20}){
+            Image($r('app.media.icon')).width(80).height(80).borderRadius(40).objectFit(ImageFit.Cover).border({width:1, color:'#fcfcfc'})
+            Column(){
+              Text($r('app.string.button_click_login_register')).fontSize(14)
+              Text($r('app.string.button_login_service')).fontSize(12)
+            }.alignItems(HorizontalAlign.Start)
+          }.width('100%').justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Center).padding({left:10, right:10})
         }
-      }else{
-        Row({space:20}){
-          Image($r('app.media.icon')).width(80).height(80).borderRadius('50%').objectFit(ImageFit.Cover)
-          Column(){
-            Text($r('app.string.button_click_login_register')).fontSize(14)
-            Text($r('app.string.button_login_service')).fontSize(12)
-          }
-        }
-      }
-
-
-
+      }.width('100%')
       Text("MINE").width(100).height(30).backgroundColor(Color.Black).fontColor(Color.White).textAlign(TextAlign.Center).onClick(()=>{
         router.pushUrl({url: CommonConstants.pages.login.url})
       })

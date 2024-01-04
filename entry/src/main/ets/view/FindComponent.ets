@@ -10,7 +10,7 @@ export default struct JobComponent{
 
   build(){
       Column() {
-        // Web({ src: CommonConstants.h5.find.index, controller: this.controller })
+        Web({ src: CommonConstants.h5.find.index, controller: this.controller })
       }
   }
 
