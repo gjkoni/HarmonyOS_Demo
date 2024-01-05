@@ -85,7 +85,7 @@ export default struct MineComponent{
             .strokeWidth(1)
           Text('0.00')
         }.backgroundColor(Color.Transparent).width('100%').height(50)
-      }.width('100%').border({width:1, color:Color.Blue}).alignContent(Alignment.Bottom)
+      }.width('100%').alignContent(Alignment.Bottom)
 
       if(this.userid != '') {
         Text('退出').width('100%').height(30).backgroundColor(Color.Red).fontColor(Color.White).textAlign(TextAlign.Center).onClick(() => {
