@@ -107,7 +107,7 @@ export default struct CourseComponent {
           //
           // }else{
             Row({space:10}){
-            Image($r('app.media.icon')).width(20).height(20)
+            Image($r('app.media.search')).width(20).height(20)
             Text('搜索课程')
           }.width('100%').padding({top:10, bottom:10}).backgroundColor('rgba(242,242,242,0.7)').justifyContent(FlexAlign.Center).alignItems(VerticalAlign.Center)
             Flex({ wrap: FlexWrap.Wrap, justifyContent: this.currentBreakpoint === BreakpointConstants.BREAKPOINT_LG ? FlexAlign.SpaceEvenly :FlexAlign.SpaceBetween, alignItems:ItemAlign.Center }){

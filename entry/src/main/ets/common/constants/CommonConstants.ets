@@ -38,7 +38,7 @@ export class CommonConstants {
 
   static readonly h5:any = {
     job:{
-      index:  H5host() + `/studyindex.html`
+      index: H5host() + `/studyindex.html` // 'http://192.168.1.74:8080/#/pages/job/job_mobile'
     },
     find:{
       index:  H5host() + `/studyfind.html`

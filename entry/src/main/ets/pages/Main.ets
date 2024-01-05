@@ -9,6 +9,7 @@ import JobComponent from '../view/JobComponent';
 import MineComponent from '../view/MineComponent';
 import { buttonInfo, ButtonInfoModel } from '../viewmodel/MainPageData';
 import { AreaColumn } from '../components/AreaColumn';
+import { UserModel } from '../model/UserModel';
 
 PersistentStorage.PersistProp(CommonConstants.storageKeys.userid, '');
 

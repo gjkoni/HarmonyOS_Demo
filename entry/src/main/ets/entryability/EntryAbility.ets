@@ -20,6 +20,13 @@ export default class EntryAbility extends UIAbility {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
 
+    PreferencesUtils.get('token').then((t) =>{
+      GlobalContext.getContext().setToken(t as string)
+    })
+
+    PreferencesUtils.get('refresh_token').then((t) =>{
+      GlobalContext.getContext().setRefreshToken(t as string)
+    })
 
     let windowClass = null;
     windowStage.getMainWindow((err, data) => {

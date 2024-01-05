@@ -1,22 +1,47 @@
 import { CommonConstants } from '../common/constants/CommonConstants';
 import web_webview from '@ohos.web.webview'
 import Logger from '../common/utils/Logger';
-import PreferencesUtils from '../common/utils/PreferencesUtils';
+import { GlobalContext } from '../common/utils/GlobalContext';
+import { JsParamsViewModel } from '../viewmodel/H5ViewModel'
 
 @Component
 export default struct JobComponent{
-  @Consume userid:string;
+  @Consume @Watch('onUserChange') userid:string;
   controller:web_webview.WebviewController = new web_webview.WebviewController()
+
+  onUserChange(propName: string): void {
+    try {
+      this.controller.runJavaScript(
+        `checkUser()`,
+        (error, result) => {
+          if (error) {
+            console.info(`run JavaScript error: ` + JSON.stringify(error))
+            return;
+          }
+          if (result) {
+            console.info(`The test() return value is: ${result}`)
+          }
+        });
+    } catch (error) {
+      console.error(`ErrorCode: ${error.code},  Message: ${error.message}`);
+    }
+  }
 
   jsProxy = {
     getAppUAT: (params:any) =>{
       Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
-      var result = {
-        'token': 'aaa',
-        'refresh_token':  'aaa',
-        'user_id': this.userid
-      };
-      return JSON.stringify(result);
+      // var req = {
+      //   token: GlobalContext.getContext().getToken(),
+      //   refresh_token: GlobalContext.getContext().getRefreshToken(),
+      //   user_id: this.userid
+      // };
+      var req = {
+          token: ``,
+          refresh_token: ``,
+          user_id: this.userid
+        };
+      Logger.debug(JSON.stringify(req))
+      return JSON.stringify(req);
     }
   }
 
