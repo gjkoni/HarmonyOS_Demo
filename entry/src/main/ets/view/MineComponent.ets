@@ -92,7 +92,7 @@ export default struct MineComponent{
             }.backgroundColor(Color.Transparent).width('100%').height(50)
           }.width('100%').alignContent(Alignment.Bottom)
           .onClick(()=>{
-            router.pushUrl({url:CommonConstants.pages.user.login})
+            router.pushUrl({url:CommonConstants.pages.login.url})
           })
 
           if(this.userid != '') {
