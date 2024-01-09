@@ -30,58 +30,59 @@ export default struct JobComponent{
   jsProxy = {
     getAppUAT: (params:any) =>{
       Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
-      // var req = {
-      //   token: GlobalContext.getContext().getToken(),
-      //   refresh_token: GlobalContext.getContext().getRefreshToken(),
-      //   user_id: this.userid
-      // };
       var req = {
-          token: ``,
-          refresh_token: ``,
-          user_id: this.userid
-        };
-      Logger.debug(JSON.stringify(req))
+        token: GlobalContext.getContext().getToken(),
+        refresh_token: GlobalContext.getContext().getRefreshToken(),
+        user_id: this.userid
+      };
+      // var req = {
+      //     token: ``,
+      //     refresh_token: ``,
+      //     user_id: this.userid
+      //   };
+      let s = JSON.stringify(req)
+      Logger.debug(`传递长度-${s.length}`)
       return JSON.stringify(req);
     }
   }
 
   build(){
-      // Column() {
-      //   Web({ src: CommonConstants.h5.job.index, controller: this.controller })
-      //     .javaScriptAccess(true)
-      //     .javaScriptProxy({
-      //       object: this.jsProxy,
-      //       name: "harmonyos",
-      //       methodList: ["getAppUAT"],
-      //       controller: this.controller,
-      //     })
-      //     .onPageEnd(e => {
-      //       // try {
-      //       //   const jsonString = { "city": '上海', "id": 1 }
-      //       //   this.controller.runJavaScript(
-      //       //     `setParams(${jsonString})`,
-      //       //     (error, result) => {
-      //       //       if (error) {
-      //       //         console.info(`run JavaScript error: ` + JSON.stringify(error))
-      //       //         return;
-      //       //       }
-      //       //       if (result) {
-      //       //         console.info(`The test() return value is: ${result}`)
-      //       //       }
-      //       //     });
-      //       //   console.info('url: ', e.url);
-      //       // } catch (error) {
-      //       //   console.error(`ErrorCode: ${error.code},  Message: ${error.message}`);
-      //       // }
-      //     })
-      //     .onConsole((event) => {
-      //       console.log('getMessage:' + event.message.getMessage())
-      //       console.log('getSourceId:' + event.message.getSourceId())
-      //       console.log('getLineNumber:' + event.message.getLineNumber())
-      //       console.log('getMessageLevel:' + event.message.getMessageLevel())
-      //       return false
-      //     })
-      // }
+      Column() {
+        Web({ src: CommonConstants.h5.job.index, controller: this.controller })
+          .javaScriptAccess(true)
+          .javaScriptProxy({
+            object: this.jsProxy,
+            name: "harmonyos",
+            methodList: ["getAppUAT"],
+            controller: this.controller,
+          })
+          .onPageEnd(e => {
+            // try {
+            //   const jsonString = { "city": '上海', "id": 1 }
+            //   this.controller.runJavaScript(
+            //     `setParams(${jsonString})`,
+            //     (error, result) => {
+            //       if (error) {
+            //         console.info(`run JavaScript error: ` + JSON.stringify(error))
+            //         return;
+            //       }
+            //       if (result) {
+            //         console.info(`The test() return value is: ${result}`)
+            //       }
+            //     });
+            //   console.info('url: ', e.url);
+            // } catch (error) {
+            //   console.error(`ErrorCode: ${error.code},  Message: ${error.message}`);
+            // }
+          })
+          .onConsole((event) => {
+            console.log('getMessage:' + event.message.getMessage())
+            console.log('getSourceId:' + event.message.getSourceId())
+            console.log('getLineNumber:' + event.message.getLineNumber())
+            console.log('getMessageLevel:' + event.message.getMessageLevel())
+            return false
+          })
+      }
   }
 
 }
