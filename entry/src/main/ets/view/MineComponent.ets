@@ -57,7 +57,7 @@ export default struct MineComponent{
                 Column({space:8}){
                   Text(this.user.fullname).fontSize(14)
                   Text(this.user.account).fontSize(12)
-                }.alignItems(HorizontalAlign.Start)
+                }.alignItems(HorizontalAlign.Start).padding({left:10})
               }.width('100%').justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Center).padding({left:10, right:10}).zIndex(999).position({x:0, y:0})
             }else{
               Row({space:10}){
@@ -65,7 +65,7 @@ export default struct MineComponent{
                 Column({space:8}){
                   Text($r('app.string.button_click_login_register')).fontSize(14)
                   Text($r('app.string.button_login_service')).fontSize(12)
-                }.alignItems(HorizontalAlign.Start)
+                }.alignItems(HorizontalAlign.Start).padding({left:10})
               }.width('100%').justifyContent(FlexAlign.Start).alignItems(VerticalAlign.Center).padding({left:10, right:10}).zIndex(999).position({x:0, y:0})
             }
             Row(){

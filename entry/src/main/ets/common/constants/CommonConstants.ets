@@ -15,13 +15,13 @@
 
 export class CommonConstants {
 
-  static readonly  RELEASE = false;
+  static readonly  RELEASE = true;
 
   static readonly ApiHost: string = "https://zptapi.smartmicky.com";
-  static readonly ApiHost_DEV: string = "http://test.zpt.api.smartmicky.com";
-
+   static readonly ApiHost_DEV: string = "http://test.zpt.api.smartmicky.com";
   static readonly H5Host: string = "https://h5.smartmicky.com";
   static readonly H5Host_DEV: string = "http://h5test.smartmicky.com";
+  //static readonly H5Host_DEV: string = "http://localhost:8080";
 
   static readonly apis:any = {
     user:{
@@ -38,7 +38,8 @@ export class CommonConstants {
 
   static readonly h5:any = {
     job:{
-      index: H5host() + `/studyindex.html` // 'http://192.168.1.74:8080/#/pages/job/job_mobile'
+      //index: 'http://192.168.1.74:8080/#/pages/job/job_mobile' //H5host() + `/studyindex.html` // 'http://192.168.1.74:8080/#/pages/job/job_mobile'
+      index: H5host() + `/studyindex.html`
     },
     find:{
       index:  H5host() + `/studyfind.html`

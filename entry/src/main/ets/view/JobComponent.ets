@@ -3,6 +3,7 @@ import web_webview from '@ohos.web.webview'
 import Logger from '../common/utils/Logger';
 import { GlobalContext } from '../common/utils/GlobalContext';
 import { JsParamsViewModel } from '../viewmodel/H5ViewModel'
+import FormExtensionAbility from '@ohos.app.form.FormExtensionAbility';
 
 @Component
 export default struct JobComponent{
@@ -30,18 +31,15 @@ export default struct JobComponent{
   jsProxy = {
     getAppUAT: (params:any) =>{
       Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
+
       var req = {
         token: GlobalContext.getContext().getToken(),
         refresh_token: GlobalContext.getContext().getRefreshToken(),
         user_id: this.userid
       };
-      // var req = {
-      //     token: ``,
-      //     refresh_token: ``,
-      //     user_id: this.userid
-      //   };
+
       let s = JSON.stringify(req)
-      Logger.debug(`传递长度-${s.length}`)
+      // Logger.debug(`传递长度-${s.length}`)
       return JSON.stringify(req);
     }
   }
