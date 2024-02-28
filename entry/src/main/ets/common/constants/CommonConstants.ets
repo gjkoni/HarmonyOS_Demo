@@ -15,7 +15,7 @@
 
 export class CommonConstants {
 
-  static readonly  RELEASE = true;
+  static readonly  RELEASE = false;
 
   static readonly ApiHost: string = "https://zptapi.smartmicky.com";
    static readonly ApiHost_DEV: string = "http://test.zpt.api.smartmicky.com";
@@ -72,7 +72,7 @@ export enum Unit {
   Empty = ''
 }
 
-function H5host() {
+export function H5host() {
   let server = CommonConstants.H5Host_DEV
   if(CommonConstants.RELEASE){
     server = CommonConstants.H5Host

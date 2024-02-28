@@ -1,9 +1,11 @@
-import { CommonConstants } from '../common/constants/CommonConstants';
+import { CommonConstants, H5host } from '../common/constants/CommonConstants';
 import web_webview from '@ohos.web.webview'
 import Logger from '../common/utils/Logger';
 import { GlobalContext } from '../common/utils/GlobalContext';
 import { JsParamsViewModel } from '../viewmodel/H5ViewModel'
 import FormExtensionAbility from '@ohos.app.form.FormExtensionAbility';
+import PreferencesUtils from '../common/utils/PreferencesUtils';
+import router from '@ohos.router';
 
 @Component
 export default struct JobComponent{
@@ -29,18 +31,39 @@ export default struct JobComponent{
   }
 
   jsProxy = {
-    getAppUAT: (params:any) =>{
-      Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
+    getAppUAT: async (params:any) =>{
+      // Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
 
+      // var req = {
+      //   token: GlobalContext.getContext().getToken(),
+      //   refresh_token: GlobalContext.getContext().getRefreshToken(),
+      //   user_id: this.userid
+      // };
       var req = {
-        token: GlobalContext.getContext().getToken(),
-        refresh_token: GlobalContext.getContext().getRefreshToken(),
+        token: await PreferencesUtils.get('token', ''),
+        refresh_token: await PreferencesUtils.get('refresh_token', ''),
         user_id: this.userid
       };
 
+      Logger.debug(`JsProxy success ${JSON.stringify(params)}`)
+      Logger.debug(`JsProxy success ${JSON.stringify(req)}`)
       let s = JSON.stringify(req)
-      // Logger.debug(`传递长度-${s.length}`)
-      return JSON.stringify(req);
+      Logger.debug(`传递长度-${s.length}`)
+      let webParams = JSON.parse(params)
+      this.controller.runJavaScript(
+        `${webParams.func}('${s}')`
+      )
+      // return JSON.stringify(req);
+    },
+    loginConfirm: (params:any) =>{
+      Logger.debug(`JsProxy success loginConfirm ${JSON.stringify(params)}`)
+      router.pushUrl({url:CommonConstants.pages.login.url})
+    },
+    closeView:(params:any) =>{
+      router.back()
+    },
+    openWebview:(params:any) => {
+
     }
   }
 
@@ -51,7 +74,7 @@ export default struct JobComponent{
           .javaScriptProxy({
             object: this.jsProxy,
             name: "harmonyos",
-            methodList: ["getAppUAT"],
+            methodList: ["getAppUAT", "loginConfirm"],
             controller: this.controller,
           })
           .onPageEnd(e => {
